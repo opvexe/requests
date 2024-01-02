@@ -152,5 +152,10 @@ func (obj *Client) send(req *http.Request, option *RequestOption) (resp *http.Re
 			option.Jar.SetCookies(req.URL, rc)
 		}
 	}
+	if obj.option.Jar != nil {
+		if rc := resp.Cookies(); len(rc) > 0 {
+			obj.option.Jar.SetCookies(req.URL, rc)
+		}
+	}
 	return resp, nil
 }
