@@ -143,6 +143,10 @@ func (obj *Client) send(req *http.Request, option *RequestOption) (resp *http.Re
 	if option.Jar != nil {
 		addCookie(req, option.Jar.GetCookies(req.URL))
 	}
+	if obj.option.Jar != nil {
+		addCookie(req, obj.option.Jar.GetCookies(req.URL))
+	}
+
 	resp, err = obj.transport.RoundTrip(req)
 	if err != nil {
 		return nil, err
