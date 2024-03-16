@@ -392,6 +392,8 @@ func (obj *Client) request(ctx context.Context, option *RequestOption) (response
 		response.webSocket, err = websocket.NewClientConn(response.rawConn.Conn(), response.response.Header, response.ForceCloseConn)
 	} else if response.response.Header.Get("Content-Type") == "text/event-stream" {
 		response.sse = newSse(response.response.Body, response.ForceCloseConn)
+	} else if response.response.Header.Get("Content-Type") == "text/event-stream; charset=utf-8" {
+		response.sse = newSse(response.response.Body, response.ForceCloseConn)
 	} else if !response.disUnzip {
 		var unCompressionBody io.ReadCloser
 		unCompressionBody, err = tools.CompressionDecode(response.response.Body, response.ContentEncoding())
